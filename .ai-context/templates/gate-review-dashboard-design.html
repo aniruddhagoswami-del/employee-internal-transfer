@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INT PR Gate Review Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(31, 41, 55, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(59, 130, 246, 0.3);
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-blue: #3b82f6;
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #8b5cf6;
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #172554 0%, var(--bg-primary) 75%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      color: white;
+      font-weight: 800;
+      font-size: 1.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .status-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-glow);
+    }
+
+    .summary-card .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-card .value {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .val-blue { color: var(--accent-blue); }
+    .val-green { color: var(--accent-green); }
+    .val-amber { color: var(--accent-amber); }
+    .val-purple { color: var(--accent-purple); }
+
+    .specs-section {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .spec-table th {
+      text-align: left;
+      padding: 0.875rem 1rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+
+    .badge-approved { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-dev { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-released { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+    .code-tag {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--accent-cyan);
+    }
+
+    .reviewer-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-group">
+        <div class="logo-badge">INT</div>
+        <div>
+          <h1>PR Gate Review Control Plane</h1>
+          <div class="subtitle">AI-First Specification-Driven Development Lifecycle</div>
+        </div>
+      </div>
+      <div>
+        <span class="badge badge-approved" id="system-status">System Operational</span>
+      </div>
+    </header>
+
+    <div class="status-summary">
+      <div class="summary-card">
+        <div class="label">Total Specs</div>
+        <div class="value val-blue" id="total-specs">1</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Gate 1 Approved</div>
+        <div class="value val-green" id="gate1-approved">1</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Gate 2 Verified</div>
+        <div class="value val-purple" id="gate2-approved">1</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Production Release</div>
+        <div class="value val-green" id="release-ready">100% Ready</div>
+      </div>
+    </div>
+
+    <div class="specs-section">
+      <div class="section-header">
+        <h2>Active Feature Specifications</h2>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Spec ID</th>
+            <th>Feature Name</th>
+            <th>Gate 1 (Spec Review)</th>
+            <th>Gate 2 (Code Review)</th>
+            <th>Assigned Reviewer(s)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="specs-table-body">
+          <tr>
+            <td><span class="code-tag">employee-internal-transfer</span></td>
+            <td><strong>Employee Internal Transfer Digital Journey</strong></td>
+            <td><span class="badge badge-approved">Approved (100/100)</span></td>
+            <td><span class="badge badge-approved">Approved (100/100)</span></td>
+            <td><div class="reviewer-chip"><span>👤</span> supratim.jetty@intglobal.com</div></td>
+            <td><span class="badge badge-released">Released (v1.0.0)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      INT Specification-Driven Development (SDD) Governance Engine &bull; Version 1.0.0
+    </footer>
+  </div>
+</body>
+</html>

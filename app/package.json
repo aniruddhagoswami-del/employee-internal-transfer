@@ -1,0 +1,41 @@
+{
+  "name": "sdd-employee-internal-transfer-journey",
+  "version": "1.0.0",
+  "description": "INT SDD Developer Assessment - Employee Internal Transfer Digital Journey",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/server.ts",
+    "dev": "ts-node src/server.ts",
+    "test": "jest --runInBand --detectOpenHandles --verbose",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "sdd",
+    "internal-transfer",
+    "saga",
+    "finite-state-machine",
+    "tdd",
+    "audit-ledger"
+  ],
+  "author": "SDD Engineering Lead",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.9",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  }
+}
