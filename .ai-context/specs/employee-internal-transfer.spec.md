@@ -1,16 +1,22 @@
 # Deliverable 2: Feature Specification (.spec.md)
-## Feature: One-Point Portal — Employee Internal Transfer Digital Journey
+## Feature: One-Point Portal — Employee Internal Transfer Digital Journey (Composite Parent Spec)
 - **Document ID**: `SPEC-EIT-001`
 - **Methodology**: INT Specification-Driven Development/Delivery (SDD)
-- **Status**: Approved (Gate 1 Baseline)
+- **Status**: Released (v1.0.0)
 - **Version**: 1.0.0
 - **Authors**: SDD Technical Product Lead & System Architect
+- **Decomposed Domain Sub-Specifications:**
+  1. [Transfer Eligibility & Initiation (`transfer-eligibility-initiation`)](transfer-eligibility-initiation.spec.md): `AC-001` to `AC-005`
+  2. [Transfer Multi-Tier Approval Governance & Withdrawal (`transfer-approval-workflow`)](transfer-approval-workflow.spec.md): `AC-006` to `AC-012`, `AC-021`, `AC-022`
+  3. [Downstream SAGA Orchestration & Automated Provisioning (`transfer-saga-orchestration`)](transfer-saga-orchestration.spec.md): `AC-013` to `AC-019`
+  4. [Transfer Cryptographic Audit, Security Guards & Live Portal (`transfer-audit-security-portal`)](transfer-audit-security-portal.spec.md): `AC-020`, `AC-023` to `AC-025`
 
 ---
 
 ## 1. Feature Overview & Scope
 
 The **Employee Internal Transfer Module** enables an authenticated employee to discover and initiate an internal transfer request across departments, locations, and roles within the enterprise. The system enforces multi-tier governance (Current Line Manager $\rightarrow$ Receiving Line Manager $\rightarrow$ HR Operations), executes automated eligibility pre-checks, provides a live visual status timeline, and orchestrates downstream enterprise provisioning across Core HRIS, Payroll, IT IAM, and Facilities CAFM.
+
 
 ---
 

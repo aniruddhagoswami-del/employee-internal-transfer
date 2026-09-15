@@ -53,7 +53,27 @@ Initial formal BRD ingestion baselining the Employee Internal Transfer Digital J
 
 ### Governance & Review Status
 - **Gate 0 Status:** Pending Review
-- **Assigned Reviewers:** Sarah Sterling (`sarah.sterling@intglobal.com`), David Vance (`david.vance@intglobal.com`), Supratim Jetty (`supratim.jetty@intglobal.com`)
+- **Assigned Reviewers:** Supratim Jetty (`supratim.jetty@intglobal.com`)
+
 - **Approval Date:** Pending
 - **Approved By:** Pending
 - **Approval Notes:** Pending formal Gate 0 BRD PR review.
+
+### Full Requirement Traceability Chain
+| BRD Requirement ID | Business Domain | Bounded Module | Feature Spec Section / AC | Task ID | Test Suite & Test Case | Implementation Target File |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `BRD-FR-001` (Profile Auto-Pop) | IAM & Employee Profile | `TransferRoutes`, `TransferPortalUI` | `SPEC-EIT-001 §3.A` (`AC-001`) | `TASK-011`, `TASK-014` | `TC-POS-001` (`transfer-api.test.ts`) | `app/src/routes/transfer.routes.ts` |
+| `BRD-FR-002`, `BR-001`–`BR-004` (Pre-Flight Engine) | HR Policy & Eligibility | `EligibilityService` | `SPEC-EIT-001 §3.A` (`AC-001`, `AC-002`, `AC-004`) | `TASK-004`, `TASK-011` | `TC-POS-001`–`002`, `TC-NEG-001`–`004` (`eligibility.test.ts`) | `app/src/services/eligibility.service.ts` |
+| `BRD-FR-003` (Drafting & Initiation) | Talent Mobility | `TransferFSMService`, `TransferService` | `SPEC-EIT-001 §2`, `§3.A` (`AC-001`, `AC-005`) | `TASK-002`, `TASK-011` | `TC-STM-001`, `TC-POS-003` (`state-machine.test.ts`) | `app/src/services/transfer.service.ts` |
+| `BRD-FR-004`, `BR-006` (Single Active Guard) | Talent Mobility | `TransferService` | `SPEC-EIT-001 §3.A` (`AC-003`) | `TASK-011` | `TC-NEG-002` (`transfer-api.test.ts`) | `app/src/services/transfer.service.ts` |
+| `BRD-FR-005` (Current Mgr Endorsement) | Line Management | `TransferFSMService`, `TransferService` | `SPEC-EIT-001 §3.B` (`AC-007`, `AC-008`) | `TASK-002`, `TASK-012` | `TC-POS-005`, `TC-NEG-005` (`state-machine.test.ts`) | `app/src/services/state-machine.service.ts` |
+| `BRD-FR-006` (Receiving Mgr Acceptance) | Line Management | `TransferFSMService`, `TransferService` | `SPEC-EIT-001 §3.C` (`AC-009`, `AC-010`) | `TASK-002`, `TASK-012` | `TC-POS-007`, `TC-POS-008` (`state-machine.test.ts`) | `app/src/services/state-machine.service.ts` |
+| `BRD-FR-007` (HR Policy Validation) | HR Operations | `TransferFSMService`, `TransferService` | `SPEC-EIT-001 §3.D` (`AC-011`, `AC-012`) | `TASK-002`, `TASK-012` | `TC-POS-009`, `TC-POS-010` (`state-machine.test.ts`) | `app/src/services/state-machine.service.ts` |
+| `BRD-FR-008`, `BR-008` (Voluntary Withdrawal) | Employee Self-Service | `TransferFSMService`, `TransferService` | `SPEC-EIT-001 §3.F` (`AC-021`, `AC-022`) | `TASK-002`, `TASK-012` | `TC-POS-017`, `TC-NEG-006` (`transfer-api.test.ts`) | `app/src/services/transfer.service.ts` |
+| `BRD-FR-009`, `BR-009` (Rejection Rationale) | Line Management | `TransferRoutes`, `TransferService` | `SPEC-EIT-001 §3.B` (`AC-008`) | `TASK-012` | `TC-NEG-005`, `TC-POS-006` (`transfer-api.test.ts`) | `app/src/services/transfer.service.ts` |
+| `BRD-FR-010` (Live Journey Stepper) | Client Experience | `TransferPortalUI` | `SPEC-EIT-001 §3.F` (`AC-020`) | `TASK-014`, `TASK-017` | `TC-POS-016` (`index.html`) | `app/public/index.html` |
+| `BRD-FR-011`, `BR-011`–`BR-014` (SAGA Orchestration) | Enterprise Integrations | `OrchestrationService` | `SPEC-EIT-001 §3.E` (`AC-013`–`AC-019`) | `TASK-005`–`TASK-009` | `TC-POS-011`–`015`, `TC-INT-001`–`002` (`saga-resilience.test.ts`) | `app/src/services/orchestrator.service.ts` |
+| `BRD-FR-012`, `BR-015` (Cryptographic Audit) | Security & Audit | `AuditService` | `SPEC-EIT-001 §3.G` (`AC-024`) | `TASK-003` | `TC-SEC-003`, `TC-SEC-004` (`audit.test.ts`) | `app/src/services/audit.service.ts` |
+| `BRD-NFR-004` (BOLA / RBAC Defense) | Security | `AuthMiddleware` | `SPEC-EIT-001 §3.G` (`AC-023`) | `TASK-010` | `TC-SEC-001`, `TC-SEC-002` (`transfer-api.test.ts`) | `app/src/middleware/auth.middleware.ts` |
+| `BRD-NFR-005` (Optimistic Concurrency) | Data Consistency | `TransferFSMService` | `SPEC-EIT-001 §3.G` (`AC-025`) | `TASK-002` | `TC-STM-001` (`state-machine.test.ts`) | `app/src/services/state-machine.service.ts` |
+

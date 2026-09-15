@@ -28,16 +28,11 @@
 Under INT PR Gate Governance rules, reviewer authorization is enforced strictly by **Git email matching** (`git config user.email`).
 
 ### Gate 1 Reviewers (Spec Peer Review)
-- **Sarah Sterling** (`sarah.sterling@intglobal.com`) — Lead Product Manager
-- **David Vance** (`david.vance@intglobal.com`) — Principal Enterprise Architect
-- **Elena Rostova** (`elena.rostova@intglobal.com`) — QA / Test Automation Lead
-- **Marcus Thorne** (`marcus.thorne@intglobal.com`) — Application Security Lead
-- **Supratim Jetty** (`supratim.jetty@intglobal.com`) — Assigned Reviewer / Architect
+- **Supratim Jetty** (`supratim.jetty@intglobal.com`) — Principal Architect & Gate Reviewer
 
 ### Gate 2 Reviewers (Code Review & Release Clearance)
-- **Supratim Jetty** (`supratim.jetty@intglobal.com`) — Assigned Reviewer / Architect
-- **Marcus Thorne** (`marcus.thorne@intglobal.com`) — Application Security Lead
-- **Elena Rostova** (`elena.rostova@intglobal.com`) — Lead SDET
+- **Supratim Jetty** (`supratim.jetty@intglobal.com`) — Principal Architect & Gate Reviewer
+
 
 ---
 

@@ -5,7 +5,8 @@
 - **Document Version:** v1.0.0
 - **Status:** Pending Review (Gate 0)
 - **Author:** Lead SDD Engineer / Solutions Architect
-- **Assigned Gate 0 Reviewer(s):** Sarah Sterling (`sarah.sterling@intglobal.com`), David Vance (`david.vance@intglobal.com`), Supratim Jetty (`supratim.jetty@intglobal.com`)
+- **Assigned Gate 0 Reviewer(s):** Supratim Jetty (`supratim.jetty@intglobal.com`)
+
 - **Source Document:** `docs/01_requirement_discovery_analysis.md`
 - **Last Updated:** 2026-09-14
 
