@@ -1,4 +1,9 @@
-# Unit Test Generation Workflow
+---
+name: int-generate-tests
+description: Unit test generation workflow following TDD standards and Jest testing guidelines.
+---
+
+# INT Unit Test Generation Workflow
 Please generate unit tests for the provided Node.js code. You must adhere to the following testing standards:
 * **Framework:** Assume we are using Jest as our primary testing framework.
 * **Coverage:** Write tests covering the "happy path", expected failure scenarios, and edge cases.

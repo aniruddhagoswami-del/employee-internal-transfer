@@ -259,11 +259,11 @@ When project code is available in Git, the system performs **Strict Pre-Executio
    - If the user's Git email (`git config user.email`) matches an assigned reviewer email for that PR gate, the user is granted PR review access.
    - If the user's Git email does **NOT** match an assigned reviewer email (e.g. logged in as `supratim.jetty@intglobal.com` but assigned reviewer is `sjetty786@gmail.com`):
      - **Option 1 (Review Pending Specs)** is **STRICTLY BLOCKED AND RESTRICTED**.
-     - The system displays the high-priority restriction alert:
+     - The system MUST explicitly write and output the high-priority restriction alert as visible text in the chat response before displaying developer modal questions:
        > 🛑 **PR REVIEW RESTRICTED — EMAIL MISMATCH**
-       > - **Logged-in Git Email:** `supratim.jetty@intglobal.com`
-       > - **Assigned Reviewer Email:** `sjetty786@gmail.com`
-       > 🔒 **Access Blocked**: You cannot perform PR reviews or approve PR gates because your logged-in Git email does not match the assigned PR reviewer email.
+       > - **Logged-in Git Email:** `<logged_in_email>` (e.g. `supratim.jetty@intglobal.com`)
+       > - **Assigned Reviewer Email:** `<assigned_email>` (e.g. `sjetty786@gmail.com`)
+       > 🔒 **Access Blocked**: Option 1 (Review Pending Specs) is restricted because your logged-in Git email does not match the assigned PR reviewer email. Directing to Developer Workspace...
      - Any manual attempt to submit an `Approve`, `Reject`, or `Changes Requested` decision is **HARD-BLOCKED AND REJECTED**.
 
 ### Local-Only Scenario Rule

@@ -1,8 +1,9 @@
 ---
+name: int-pr-gate-workflow
 description: Standardized PR Gate Workflow between Spec Generation and Gate 2 Approval covering parallel spec execution, reviewer detection after git pull, role decision prompts, reviewer identity validation, Gate 1 & Gate 2 standardized review templates, and dashboard synchronization.
 ---
 
-# PR Gate Workflow (Spec Generation → Gate 1 → Development → Gate 2)
+# INT PR Gate Workflow (Spec Generation → Gate 1 → Development → Gate 2)
 
 > [!IMPORTANT]
 > **Scope Restriction**
@@ -78,14 +79,14 @@ The user is confirmed as an **Authorized Reviewer**. Present the Reviewer Decisi
 The user is **UNAUTHORIZED FOR PR REVIEW**.
 1. **DO NOT** display Option 1 (Review Pending Specs).
 2. **DO NOT** use interactive modal tools (`ask_question`) to prompt the user to change or update `.ai-context/project_context.md` or `.ai-context/constitution.md`!
-3. Display the high-priority Unauthorized Alert:
-   > 🛑 **UNAUTHORIZED FOR PR REVIEW**
+3. **MANDATORY VISIBLE CHAT NOTIFICATION**: The agent MUST explicitly output the high-priority Unauthorized Alert as visible markdown text in the chat response BEFORE or alongside calling `ask_question`:
+   > 🛑 **UNAUTHORIZED FOR PR REVIEW / EMAIL MISMATCH**
    > - **Logged-in Git Email:** `<logged_in_email>` (e.g. `supratim.jetty@intglobal.com`)
    > - **Assigned Reviewer Email:** `<assigned_email>` (e.g. `sjetty786@gmail.com`)
    >
-   > 🔒 **Access Restricted**: You are not authorized to perform PR reviews for this project because your logged-in Git email (`<logged_in_email>`) does not match the assigned PR reviewer email (`<assigned_email>`). Remaining in Developer mode.
+   > 🔒 **Access Restricted**: Option 1 (Review Pending Specs) is restricted because your logged-in Git email (`<logged_in_email>`) does not match the assigned PR reviewer email (`<assigned_email>`). Directing to Developer Workspace...
 4. **Bypass Reviewer Prompt & Direct Immediately to Development**:
-   > 💻 **Directing to Developer Workspace...**
+   Output the notification text above, then display the developer question modal:
    > **"Which approved spec would you like to start development on?"**
    > [Displays roster of eligible Gate 1 approved specs]
 

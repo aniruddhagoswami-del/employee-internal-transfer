@@ -46,4 +46,15 @@ This document maintains a strict, **append-only** chronological audit log of all
   5. Updated Active Specifications Matrix in `.ai-context/status.md` and reviewer chip in `.ai-context/templates/gate-review-dashboard-design.html`.
 - **Status:** Completed & Synchronized
 
+---
 
+## [Entry 004] — 2026-09-15 11:36:00
+- **Initiator:** Supratim Jetty (`supratim.jetty@intglobal.com`)
+- **Command / Prompt:** `/int-sync-global-skills`
+- **Execution Scope:** Synchronize and upgrade local project `.agent/` skills, workflows, and rules from master global INT configuration
+- **Actions Taken:**
+  1. Synchronized INT Control Plane rules from `C:\Users\Supratim_Jetty\.gemini\config\skills\int-project-setup\resources\INT-Control-Plane\.agent\rules\` to `.agent/rules/`.
+  2. Synchronized 18 workflows from `C:\Users\Supratim_Jetty\.gemini\config\global_workflows\` to `.agent/workflows/`.
+  3. Clean-copied all 8 INT skills from `C:\Users\Supratim_Jetty\.gemini\config\skills\` into `.agent/skills/` (strictly excluding any nested `resources/` directories).
+  4. Verified and cleaned up legacy directories (`.agents/`, `workflows/`, `.agent/skills/int-project-setup/resources/`).
+- **Status:** Completed & Synchronized

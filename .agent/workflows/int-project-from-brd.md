@@ -1,8 +1,9 @@
 ---
-description: 
+name: int-project-from-brd
+description: BRD change history log and module configuration traceability workflow.
 ---
 
-# Config Project From Brd
+# INT Project From BRD Workflow
 
 The project shall maintain a change history for the Business Requirements
 Document to support requirement traceability and the INT AI-First SDD

@@ -1,9 +1,9 @@
 ---
-name: release-management
+name: int-release-management
 description: Validate release readiness, release approved Specs, generate release notes from Spec Intent, update project status, and create the Git release tag.
 ---
 
-# Release Management
+# INT Release Management Workflow
 
 ## 1. Purpose
 

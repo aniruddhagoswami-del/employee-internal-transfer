@@ -1,9 +1,9 @@
 ---
-name: production-incident
+name: int-production-incident
 description: Record, classify, triage, and manage production incidents from client, support, monitoring, or internal sources, then route the incident to the correct SDD path without automatically creating a Hotfix.
 ---
 
-# Production Incident Management
+# INT Production Incident Management Workflow
 
 ## 1. Purpose
 

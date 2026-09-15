@@ -1,8 +1,9 @@
 ---
-description: 
+name: int-code-review
+description: Senior Technical Lead code review for security, performance, reliability, and INT SDD standards.
 ---
 
-# code review
+# INT Code Review Workflow
 Please act as a Senior Node.js Technical Lead and review the provided code. Do not rewrite the entire file immediately. Instead, analyze the code and provide constructive feedback categorized under the following headers:
 
 ## 1. Security Vulnerabilities

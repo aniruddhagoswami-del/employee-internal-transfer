@@ -41,20 +41,20 @@ If any of the following items are ambiguous or not explicitly specified in the p
 
 ---
 
-# CRITICAL RULE — INT CONTROL PLANE (DYNAMIC COPY & SYNC)
+# CRITICAL RULE — INT CONTROL PLANE (.agent/ CONTROL DIRECTORY)
 
 The following directory is the authoritative source for the INT Control Plane:
 `skills/int-project-setup/resources/INT-Control-Plane/.agent/`
 
-You MUST dynamically copy the entire contents of this directory into the project root:
+You MUST dynamically copy the contents of this directory into the project root control directory:
 `.agent/`
 
 ## Dynamic Copying Protocol:
 
 - **Do NOT rely on hardcoded file lists.** The agent MUST dynamically discover and copy ALL files and subdirectories present in `skills/int-project-setup/resources/INT-Control-Plane/.agent/` directly to `.agent/` in the project workspace root.
-- **Dynamic Rule Synchronization**: Every rule file (e.g., `.md`, `.agentignore`) present inside `skills/int-project-setup/resources/INT-Control-Plane/.agent/rules/` (including any new rules added now or in the future) MUST be dynamically discovered and copied to `.agent/rules/`.
-- **Dynamic Workflow Synchronization**: Every workflow file (`.md`) present inside `skills/int-project-setup/resources/INT-Control-Plane/.agent/workflows/` (including any new workflows added now or in the future) MUST be dynamically discovered and copied to `.agent/workflows/`.
-- If new rule or workflow files are added to `skills/int-project-setup/resources/INT-Control-Plane/.agent/`, the setup/continuation process MUST dynamically include them automatically.
+- **Dynamic Rule Synchronization**: Every rule file (e.g., `.md`, `.agentignore`) present inside `skills/int-project-setup/resources/INT-Control-Plane/.agent/rules/` MUST be dynamically discovered and copied to `.agent/rules/`.
+- **Dynamic Workflow Synchronization**: Every workflow file (`.md`) present inside `skills/int-project-setup/resources/INT-Control-Plane/.agent/workflows/` MUST be dynamically discovered and copied to `.agent/workflows/`. Do NOT create a top-level `workflows/` directory or `.agents/` directory in the project workspace root.
+- If new rule or workflow files are added to `skills/int-project-setup/resources/INT-Control-Plane/.agent/`, the setup/continuation process MUST dynamically include them automatically under `.agent/rules/` and `.agent/workflows/`.
 
 ## Rules for Copying:
 
@@ -70,29 +70,54 @@ The copied INT Control Plane files are authoritative and must remain content-equ
 
 ---
 
-# MANDATORY PROJECT VENDOR-AGNOSTIC GOVERNANCE & LOCAL SKILLS (`AGENTS.md` & `.agents/skills/`)
+# MANDATORY PROJECT VENDOR-AGNOSTIC GOVERNANCE & LOCAL SKILLS (`AGENTS.md` & `.agent/skills/`)
 
 To ensure the project repository is completely self-contained and vendor-agnostic (independent of any specific AI tool or provider such as Gemini, Claude, Cursor, Windsurf, or Copilot):
 
 1. **Auto-Generate `AGENTS.md` in Workspace Root**:
    During initial project setup, the agent MUST write **`AGENTS.md`** into the project workspace root. `AGENTS.md` contains the INT AI-First Engineering Policy, authority hierarchy, lifecycle definition, and core governance rules.
 
-2. **Auto-Copy Project-Level Skills into `.agents/skills/`**:
-   During project setup, the agent MUST create **`.agents/skills/`** in the project workspace root and dynamically copy all project SDD sub-skills into it:
-   - `.agents/skills/int-project-setup/SKILL.md`
-   - `.agents/skills/int-sdd-lifecycle/SKILL.md`
-   - `.agents/skills/int-brd-ingestion/SKILL.md`
-   - `.agents/skills/int-incident-management/SKILL.md`
-   - `.agents/skills/int-hotfix-management/SKILL.md`
-   - `.agents/skills/int-release-management/SKILL.md`
-   - `.agents/skills/int-session-continuation/SKILL.md`
+2. **Auto-Copy Project-Level Skills into `.agent/skills/`**:
+   During project setup, the agent MUST create **`.agent/skills/`** in the project workspace root and dynamically copy all project SDD sub-skills into it.
+   
+   **CRITICAL EXCLUSION RULE**: The agent MUST copy ONLY the skill folder and its `SKILL.md` (and explicit execution scripts), **STRICTLY EXCLUDING** any nested `resources/` directory (e.g. `skills/int-project-setup/resources/`). This ensures that control plane template directories are NEVER copied into `.agent/skills/`, preventing duplicate workflow and rule indexing in project repositories!
 
-3. **Mandatory Skill & Governance Resolution Hierarchy**:
-   After project setup is complete, whenever any skill or governance rule is executed in the workspace, the system MUST enforce the following loading priority:
-   - **Priority 1 (Local Repository First)**: First check if `AGENTS.md` or local project skills (`.agents/skills/<skill_name>/SKILL.md`) exist inside the project repository root. If present, load and execute the **local project skills** first.
-   - **Priority 2 (Global Fallback Second)**: If and ONLY if a requested skill or rule file is not present locally in the project repository root, fall back to checking global skills (`~/.gemini/config/skills/<skill_name>/SKILL.md`).
+   - `.agent/skills/int-project-setup/SKILL.md`
+   - `.agent/skills/int-sdd-lifecycle/SKILL.md`
+   - `.agent/skills/int-brd-ingestion/SKILL.md`
+   - `.agent/skills/int-incident-management/SKILL.md`
+   - `.agent/skills/int-hotfix-management/SKILL.md`
+   - `.agent/skills/int-release-management/SKILL.md`
+   - `.agent/skills/int-session-continuation/SKILL.md`
+   - `.agent/skills/int-sync-global-skills/SKILL.md`
 
-This ensures that every team member or AI assistant working on the project prioritizes repository-local skills directly inside the project folder without relying on external or cloud AI configurations.
+3. **Mandatory Workflow, Skill & Governance Resolution Hierarchy**:
+   After project setup is complete, whenever any workflow, skill, slash command, or governance rule is executed in the workspace (e.g., `/int-project-resume`, `/int-brd-ingestion`, `/int-project-setup`, `/int-sync-global-skills`), the AI chat agent MUST enforce the following resolution priority:
+   - **Priority 1 (Local Repository First)**: First check if local project workflows (`.agent/workflows/<workflow_name>.md`), `AGENTS.md`, or local project skills (`.agent/skills/<skill_name>/SKILL.md`) exist inside `.agent/` in the project repository root. If present, load and execute the **local project workflows, rules, and skills** first.
+   - **Priority 2 (Global Fallback Second)**: If and ONLY if a requested workflow, skill, or rule file is not present locally in `.agent/`, fall back to checking global workflows (`<global-config-root>/global_workflows/`) or global skills (`<global-skills-root>/<skill_name>/SKILL.md`).
+
+This ensures that every team member or AI assistant (Gemini, Claude, Cursor, Windsurf, Copilot, etc.) working on the project prioritizes repository-local workflows and skills directly inside `.agent/` without relying on external or cloud AI configurations.
+
+---
+
+# EXISTING PROJECT RE-INITIALIZATION & NON-DESTRUCTIVE SYNC PROTOCOL
+
+When the user runs `/int-project-setup` on a project that is **already set up**:
+
+1. **Non-Destructive Guarantee**:
+   - The system **NEVER** deletes, overwrites, or resets existing project-specific data (`BRD.md`, `project_context.md`, `constitution.md`, `architecture.md`, `status.md`, `prompt_history.md`, specs, plans, tasks, test cases, or PR review records).
+   - All source code (`src/`, `tests/`) and legacy project structures remain 100% untouched.
+
+2. **Control Plane & Local Skill Sync from Global Standards**:
+   - The system compares the local `.agent/rules/`, `.agent/workflows/`, and `.agents/skills/` with the latest global Control Plane resources and global skills (`<global-skills-root>/`).
+   - If global skills or control plane standards contain updated workflows (e.g. `pr-gate-workflow.md`, `int-standards.md`, `int-sdd-lifecycle`), the system **automatically updates and syncs `.agents/skills/` and `.agent/`** so the project repository is upgraded with the latest engineering standards and security fixes!
+
+3. **Missing Template & Directory Restoration**:
+   - If any new mandatory templates (e.g. `gate-1-review.template.md`, `gate-2-review.template.md`, `gate-review-dashboard-design.html`) or `.ai-context/` subdirectories are missing, the system non-destructively generates them.
+
+4. **Governance Aspect & Reviewer Roster Validation & Auto-Correction**:
+   - The system inspects `.ai-context/project_context.md` and `.ai-context/constitution.md`.
+   - If any assigned reviewer email fields (Technical Lead / Architect, Project Manager / Product Owner, Gate 1 Reviewers, Gate 2 Reviewers) are missing, empty, or contain default placeholders (`<email@domain.com>`, `<Name>`), the system prompts the user to input real names and emails and updates `.ai-context/project_context.md` and `.ai-context/constitution.md` automatically!
 
 ---
 
@@ -850,9 +875,11 @@ src/frontend/
 
 ---
 
-# Required Project Information Collection
+# Required Project Information Collection & Governance Validation Protocol
 
-Before creating the technology-specific project structure, collect the required project technology information. If the information is not already available in the project context, ask the user for it. Do not infer or invent missing technology choices:
+Before creating or syncing the project structure, collect and validate all required project technology and governance information. When running `/int-project-setup` on a new OR existing project, the system MUST inspect `.ai-context/project_context.md` and `.ai-context/constitution.md` to verify that all necessary aspects and assigned reviewer rosters are populated with real names and emails.
+
+Do NOT infer, invent, or leave default placeholders (`<Name>`, `<email@domain.com>`, `<Technical Lead Name>`, `<Project Manager Name>`). If any information is missing or contains placeholders, prompt the developer to provide it:
 
 1. Project name
 2. Project type (Full Stack, Frontend Only, Backend Only, Mobile)
@@ -863,8 +890,13 @@ Before creating the technology-specific project structure, collect the required 
 7. Authentication mechanism
 8. Deployment target, if known
 9. Architecture style (Default: Modular Monolith + Microservice Ready)
+10. **Governance Aspect & Reviewer Roster Validation (MANDATORY)**:
+    - **Technical Lead / Architect (Gate 2 Reviewer)**: Name & Email
+    - **Project Manager / Product Owner (Gate 1 Reviewer)**: Name & Email
+    - **Senior Software Engineer / Spec Author**: Name & Email
+    - **Git Developer Email Alignment (`git config user.email`)**: Confirm developer's authenticated email matches their designated role or assigned reviewer/author roster.
 
-Populate `.ai-context/project_context.md` and `.ai-context/architecture.md` with these baseline parameters.
+Populate and update `.ai-context/project_context.md`, `.ai-context/constitution.md`, and `.ai-context/architecture.md` immediately with these validated parameters.
 
 ---
 

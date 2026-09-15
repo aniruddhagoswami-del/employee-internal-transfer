@@ -1,9 +1,9 @@
 ---
-name: hotfix-management
+name: int-hotfix-management
 description: Manage urgent production fixes linked to an existing Incident using the INT compressed SDD chain, mandatory Gate 2, retro-documentation, and Release Management.
 ---
 
-# Hotfix Management
+# INT Hotfix Management Workflow
 
 ## 1. Purpose
 
